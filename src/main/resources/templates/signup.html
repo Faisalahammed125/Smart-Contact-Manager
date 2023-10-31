@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="https://www.thymeleaf.org" th:replace="base :: Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp page</title>
+</head>
+<body>
+    <section class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="mycard mt-3">
+                        <div class="container text-center">
+                            <img style="width: 15%;" src=" " th:src="@{/img/register.webp}">
+                        </div>
+                        <h1 class="text-center text-black">Create an account!!</h1>
+                        <form action="" th:action="@{/do_register}" method="post">
+
+                            <!-- name field here -->
+
+                            <div class="mb-3">
+                                <label for="name_field" class="form-label text-black">Name</label>
+                                <input type="text" class="form-control" id="name_field" placeholder="Enter here" required>
+                              </div>
+
+                               <!-- email field here -->
+
+                            <div class="mb-3">
+                                <label for="email_field" class="form-label text-black">Email</label>
+                                <input type="email" class="form-control" id="email_field" placeholder="Enter here" required>
+                              </div>
+
+                               <!-- password field here -->
+
+                            <div class="mb-3">
+                                <label for="password_field" class="form-label text-black">Password</label>
+                                <input type="password" class="form-control" id="password_field" placeholder="Enter here" required>
+                              </div>
+
+                              <!-- user about field -->
+
+                            <div class="mb-3">
+                                <textarea placeholder="Enter something about yourself"  rows="6" class="form-control"></textarea>
+                              </div>
+                            <div class="container text-center">
+                                <button class="btn bg-primary btn lg text-white">Submit</button>
+                                <button class="btn btn-warning btn lg">Reset</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
