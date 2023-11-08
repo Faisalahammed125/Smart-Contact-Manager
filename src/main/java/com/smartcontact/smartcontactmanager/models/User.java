@@ -11,15 +11,26 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @NotBlank(message = "Name field is Required!!!")
+    @Size(min = 3, max = 20, message = "Name must be between 3-20 characters!!!")
     private String name;
+
     @Column(unique = true)
+    @Email(message = "Invalid Email!!!!")
     private String email;
+
+    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "password must contain alphaneumeric characters!!")
     private String password;
     private String role;
     private boolean enabled;
@@ -104,6 +115,12 @@ public class User {
 
     public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", role=" + role
+                + ", enabled=" + enabled + ", imgurl=" + imgurl + ", about=" + about + ", contacts=" + contacts + "]";
     }
 
 }
