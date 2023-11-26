@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -30,7 +31,7 @@ public class User {
     @Email(message = "Invalid Email!!!!")
     private String email;
 
-    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "password must contain alphaneumeric characters!!")
+    @Column(length = 500)
     private String password;
     private String role;
     private boolean enabled;
