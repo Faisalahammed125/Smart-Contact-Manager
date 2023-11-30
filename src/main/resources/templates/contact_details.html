@@ -1,31 +1,34 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="https://www.thymeleaf.org" th:replace="base_user :: Layout(~{::section})">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>This is User page</title>
 </head>
+
 <body>
     <section>
-       <div class="card" th:if="${contact}">
-        <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert text-center" role="alert">
-            <p th:text="${session.message.content}"></p>
-            <th:block th:text="${@sessionHelper.removeMessageFromSession()}"></th:block>
-        </div>
+        <div class="card" th:if="${contact}">
+            <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert text-center"
+                role="alert">
+                <p th:text="${session.message.content}"></p>
+                <th:block th:text="${@sessionHelper.removeMessageFromSession()}"></th:block>
+            </div>
             <div class="card-body text-center">
-                <img src="" alt="" style="width: 200px; height: 200px" th:src="@{'/img/'+${contact.imgurl}}"/>
+                <img src="" alt="" style="width: 200px; height: 200px" th:src="@{'/img/'+${contact.imgurl}}" />
                 <h3>
                     <span th:text="${contact.name}"></span>
                     (<span th:text="${contact.nickname}"></span>)
                 </h3>
                 <table class="table align-middle mb-0 bg-white">
                     <thead class="bg-light">
-                      <tr>
-                        <th>#Id</th>
-                        <th>
-                            <span th:text="${contact.cId}"></span>
-                        </th>
-                      </tr>
+                        <tr>
+                            <th>#Id</th>
+                            <th>
+                                <span th:text="${contact.cId}"></span>
+                            </th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr>
@@ -47,24 +50,25 @@
                             </td>
                         </tr>
                     </tbody>
-                  </table>
-                  <div class="description">
+                </table>
+                <div class="description">
                     <th:block th:text="${contact.description}"></th:block>
-                  </div>
-                  <div class="container mt-3">
+                </div>
+                <div class="container mt-3">
                     <a th:href="@{'/user/update_contact/'+${contact.cId}}">
                         <button class="btn bg-color btn lg">Update</button>
                     </a>
                     <a ref="" th:onclick="|deleteContact(${contact.cId})|">
                         <button class="btn btn-danger btn lg">Delete</button>
                     </a>
-                  </div>
+                </div>
             </div>
-       </div>
-       <div>
-       </br></br>
-       <h2 class="text-center bg-danger mt-3" th:unless="${contact}">Permission Denied!!!</h2>
-       </div>
+        </div>
+        <div>
+            </br></br>
+            <h2 class="text-center bg-danger mt-3" th:unless="${contact}">Permission Denied!!!</h2>
+        </div>
     </section>
 </body>
+
 </html>

@@ -111,7 +111,7 @@ public class UserController {
         String email = principal.getName();
         User user = this.userRepository.getUserbyUserName(email);
         if (user.getId() == contact.getUser().getId()) {
-            model.addAttribute("title", user.getName());
+            model.addAttribute("title", contact.getName());
             model.addAttribute("contact", contact);
         }
         return "contact_details.html";
@@ -177,5 +177,13 @@ public class UserController {
             session.setAttribute("message", new Message("Something went wrong!!!!" + e.getMessage(), "alert-danger"));
         }
         return "redirect:/user/" + contact.getcId() + "/contact";
+    }
+
+    @RequestMapping("/profile_view")
+    public String UserProfile(Model model, Principal principal) {
+        User user = this.userRepository.getUserbyUserName(principal.getName());
+        model.addAttribute("title", user.getName());
+        model.addAttribute("user", user);
+        return "user_profile.html";
     }
 }
