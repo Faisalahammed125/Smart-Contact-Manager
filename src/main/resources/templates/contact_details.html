@@ -7,7 +7,11 @@
 </head>
 <body>
     <section>
-       <div class="card">
+       <div class="card" th:if="${contact}">
+        <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert text-center" role="alert">
+            <p th:text="${session.message.content}"></p>
+            <th:block th:text="${@sessionHelper.removeMessageFromSession()}"></th:block>
+        </div>
             <div class="card-body text-center">
                 <img src="" alt="" style="width: 200px; height: 200px" th:src="@{'/img/'+${contact.imgurl}}"/>
                 <h3>
@@ -48,10 +52,18 @@
                     <th:block th:text="${contact.description}"></th:block>
                   </div>
                   <div class="container mt-3">
-                    <button class="btn bg-color btn lg">Update</button>
-                    <button class="btn btn-danger btn lg">Delete</button>
+                    <a th:href="@{'/user/update_contact/'+${contact.cId}}">
+                        <button class="btn bg-color btn lg">Update</button>
+                    </a>
+                    <a ref="" th:onclick="|deleteContact(${contact.cId})|">
+                        <button class="btn btn-danger btn lg">Delete</button>
+                    </a>
                   </div>
             </div>
+       </div>
+       <div>
+       </br></br>
+       <h2 class="text-center bg-danger mt-3" th:unless="${contact}">Permission Denied!!!</h2>
        </div>
     </section>
 </body>

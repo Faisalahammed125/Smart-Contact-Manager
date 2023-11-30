@@ -104,10 +104,78 @@ public class UserController {
     }
 
     @RequestMapping("/{cId}/contact")
-    public String ShowContactDetails(@PathVariable("cId") int cId, Model model) {
+    public String ShowContactDetails(@PathVariable("cId") int cId, Model model, Principal principal) {
         Optional<Contact> contactOptional = this.contactRepository.findById(cId);
         Contact contact = contactOptional.get();
-        model.addAttribute("contact", contact);
+
+        String email = principal.getName();
+        User user = this.userRepository.getUserbyUserName(email);
+        if (user.getId() == contact.getUser().getId()) {
+            model.addAttribute("title", user.getName());
+            model.addAttribute("contact", contact);
+        }
         return "contact_details.html";
+    }
+
+    @RequestMapping("/delete/{cId}")
+    public String DeleteContact(@PathVariable("cId") int cId, Model model,
+            Principal principal,
+            HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Contact contact = this.contactRepository.findById(cId).get();
+
+        User user = this.userRepository.getUserbyUserName(principal.getName());
+        user.getContacts().remove(contact);
+        this.userRepository.save(user);
+
+        session.setAttribute("message", new Message("Contact Successfully Deleted !!!",
+                "alert-success"));
+        return "redirect:/user/show_contact";
+    }
+
+    @RequestMapping("/update_contact/{cId}")
+    public String UpdateContact(@PathVariable("cId") int cId, Model model) {
+        model.addAttribute("title", "Update Contact");
+        Contact contact = this.contactRepository.findById(cId).get();
+        model.addAttribute("contact", contact);
+        return "update_form.html";
+    }
+
+    @RequestMapping(value = "/process_update", method = RequestMethod.POST)
+    public String UpdateHandler(@ModelAttribute Contact contact,
+            @RequestParam("image") MultipartFile file, Principal principal,
+            HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        try {
+            String email = principal.getName();
+            User user = this.userRepository.getUserbyUserName(email);
+
+            Contact oldContact = this.contactRepository.findById(contact.getcId()).get();
+
+            /// processing and uploading file..
+
+            if (file.isEmpty()) {
+                contact.setImgurl(oldContact.getImgurl());
+            } else {
+                File deletFile = new ClassPathResource("static/img").getFile();
+                File file1 = new File(deletFile, oldContact.getImgurl());
+                file1.delete();
+
+                contact.setImgurl(file.getOriginalFilename());
+                File saveFile = new ClassPathResource("static/img").getFile();
+                Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            contact.setUser(user);
+
+            this.contactRepository.save(contact);
+            session.setAttribute("message", new Message("Contact Successfully Updated !!!",
+                    "alert-success"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.setAttribute("message", new Message("Something went wrong!!!!" + e.getMessage(), "alert-danger"));
+        }
+        return "redirect:/user/" + contact.getcId() + "/contact";
     }
 }
