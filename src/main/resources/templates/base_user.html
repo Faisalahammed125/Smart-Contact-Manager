@@ -24,10 +24,10 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" >User</a>
+              <a class="nav-link" ><span th:text="${user.name}"></span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" >Logout</a>
+              <a class="nav-link" href="/logout" >Logout</a>
             </li>
           </ul>
         </div>
@@ -37,7 +37,7 @@
 
     <div class="sidebar">
         <a href="/user/index" class="item"><i class="fa fa-home" aria-hidden="true"></i>Home</a>
-        <a href="#" class="item"><i class="fa fa-address-book" aria-hidden="true"></i>View Contacts</a>
+        <a href="/user/show_contact" class="item"><i class="fa fa-address-book" aria-hidden="true"></i>View Contacts</a>
         <a href="/user/add_contact" class="item"><i class="fa fa-pencil" aria-hidden="true"></i></i>Add Contacts</a>
         <a href="#" class="item"><i class="fa fa-user" aria-hidden="true"></i>Your Profile</a>
         <a href="#" class="item"><i class="fa fa-cogs" aria-hidden="true"></i>Settings</a>

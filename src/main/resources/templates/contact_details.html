@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="https://www.thymeleaf.org" th:replace="base_user :: Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>This is User page</title>
+</head>
+<body>
+    <section>
+       <div class="card">
+            <div class="card-body text-center">
+                <img src="" alt="" style="width: 200px; height: 200px" th:src="@{'/img/'+${contact.imgurl}}"/>
+                <h3>
+                    <span th:text="${contact.name}"></span>
+                    (<span th:text="${contact.nickname}"></span>)
+                </h3>
+                <table class="table align-middle mb-0 bg-white">
+                    <thead class="bg-light">
+                      <tr>
+                        <th>#Id</th>
+                        <th>
+                            <span th:text="${contact.cId}"></span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Email</th>
+                            <td>
+                                <span th:text="${contact.email}"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Mobile No</th>
+                            <td>
+                                <span th:text="${contact.phone}"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Work</th>
+                            <td>
+                                <span th:text="${contact.work}"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                  <div class="description">
+                    <th:block th:text="${contact.description}"></th:block>
+                  </div>
+                  <div class="container mt-3">
+                    <button class="btn bg-color btn lg">Update</button>
+                    <button class="btn btn-danger btn lg">Delete</button>
+                  </div>
+            </div>
+       </div>
+    </section>
+</body>
+</html>

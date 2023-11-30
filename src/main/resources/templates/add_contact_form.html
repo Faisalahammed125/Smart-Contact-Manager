@@ -8,54 +8,80 @@
 <body>
     <section>
         <div class="card">
+            <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert text-center" role="alert">
+                <p th:text="${session.message.content}"></p>
+                <th:block th:text="${@sessionHelper.removeMessageFromSession()}"></th:block>
+            </div>
             <div class="card-body">
                 <h1 class="text-center">Add Contact</h1>
                 <div class="container-fluid mt-1">
                     <div class="row">
                         <div class="col-md-8 offset-md-2">
-                            <form action="#" method="POST" enctype="multipart/form-data" class="mt-2"> 
+                            <form action="#" 
+                            th:object="${contact}"
+                            method="POST" enctype="multipart/form-data" 
+                            th:action="@{/user/process_contact}"
+                            class="mt-2"> 
+
+                                <!-- name field -->
+
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"> <i class="fa fa-user"></i> </div>
                                      </div>
-                                    <input name="name" class="form-control" placeholder="Enter First name" type="text">
+                                    <input required name="name" class="form-control" placeholder="Enter name" type="text">
                                 </div> 
+
+                                <!-- Nick name field -->
+
                                 <div class="input-group mt-2">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"> <i class="fa fa-plus"></i> </div>
                                      </div>
-                                    <input name="name" class="form-control" placeholder="Enter Second name" type="text">
+                                    <input required name="nickname" class="form-control" placeholder="Enter Nick name" type="text">
                                 </div> 
+
+                                <!-- Phone number field -->
+
                                 <div class="input-group mt-2">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"> <i class="fa fa-phone"></i> </div>
                                      </div>
-                                    <input name="phone" class="form-control" placeholder="Enter Phone Number" type="number">
-                                </div>     
+                                    <input required name="phone" class="form-control" placeholder="Enter Phone Number" type="number">
+                                </div>
+                                
+                                <!-- Email field -->
+
                                 <div class="input-group mt-2">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"> @</div>
                                      </div>
-                                    <input name="email" class="form-control" placeholder="Enter Email" type="email">
+                                    <input required name="email" class="form-control" placeholder="Enter Email" type="email">
                                 </div> 
+
+                                <!-- Workplace field -->
+
                                 <div class="input-group mt-2">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"> <i class="fa fa-briefcase"></i> </div>
                                      </div>
-                                    <input name="work" class="form-control" placeholder="Enter Workplace" type="text">
+                                    <input required name="work" class="form-control" placeholder="Enter Workplace" type="text">
                                 </div>
+
+                                <!-- description field -->
+
                                 <div class="input-group mt-2">
                                     <textarea placeholder="Enter description" name="description" id="description" class="form-control" rows="10"></textarea>
                                 </div>
 
-                                <!-- contact image -->
+                                <!-- image field -->
 
                                 <div class="custom-file mt-2">
-                                    <input type="file" name="proileImage"/>
+                                    <input type="file" name="image"/>
                                 </div>
 
                                 <div class="container mt-2 text-center">
-                                    <button class="btn bg-color btn lg">Save Conatct</button>
+                                    <button class="btn bg-color btn lg">Save Contact</button>
                                 </div>
                             </form>
                         </div>

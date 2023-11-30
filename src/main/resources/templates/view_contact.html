@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="https://www.thymeleaf.org" th:replace="base_user :: Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>This is User page</title>
+</head>
+<body>
+    <section>
+       <div class="card">
+            <div class="card-body">
+                <h1>Your Contacts</h1>
+                <table class="table align-middle mb-0 bg-white">
+                    <thead class="bg-light">
+                      <tr>
+                        <th>#Id</th>
+                        <th>Name</th>
+                        <th>Mobile No</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="c : ${contacts}">
+                            <th scope="row" th:text="${c.cId}"></th>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img
+                                        src=""
+                                        alt=""
+                                        th:src="@{'/img/'+${c.imgurl}}"
+                                        style="width: 45px; height: 45px"
+                                        class="rounded-circle object-fit"
+                                        />
+                                    <div class="ms-3">
+                                      <p th:text="${c.name}" class="fw-bold mb-1"></p>
+                                      <p th:text="${c.email}" class="text-muted mb-0"></p>
+                                    </div>
+                                  </div>
+                            </td>
+                            <td th:text="${c.phone}"></td>
+                            <td>
+                                <a th:href="@{'/user/'+${c.cId}+'/contact'}"ref="">
+                                  <button type="button" class="btn btn-sm btn-rounded">
+                                    <img 
+                                    src="/img/see-more.png"
+                                    alt=""
+                                    style="width: 45px; height: 45px"
+                                    />
+                                  </button>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                  </table>
+            </div>
+       </div>
+    </section>
+</body>
+</html>

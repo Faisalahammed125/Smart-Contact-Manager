@@ -30,7 +30,7 @@ public class HomeController {
     @RequestMapping("/home")
     public String home(Model model) {
         model.addAttribute("title", "Home - Smart Contact Manager");
-        return "home.html";
+        return "home";
     }
 
     @RequestMapping("/about")
@@ -69,9 +69,6 @@ public class HomeController {
             user.setEnabled(true);
             // user.setImgurl("default.png");
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-            System.out.println("Agreement " + agreement);
-            System.out.println("User " + user);
 
             User res = this.userRepository.save(user);
             model.addAttribute("user", new User());
