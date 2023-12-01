@@ -13,8 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -24,7 +22,7 @@ public class User {
     private int id;
 
     @NotBlank(message = "Name field is Required!!!")
-    @Size(min = 3, max = 20, message = "Name must be between 3-20 characters!!!")
+    @Size(min = 3, max = 30, message = "Name must be between 3-30 characters!!!")
     private String name;
 
     @Column(unique = true)
