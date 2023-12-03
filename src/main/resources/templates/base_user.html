@@ -26,18 +26,11 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto nav-underline text-uppercase">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" th:href="@{/home}">Home</a>
-          </li>
-
-          <li class="nav-item">
-            <img src="" alt="" th:src="@{'/img/contact_logo.jpg'}" style="width: 45px; height: 45px"
+            <img src="" alt="" th:src="@{'/img/'+${user.imgurl}}" style="width: 45px; height: 45px"
                     class="rounded-circle object-fit" />
           </li>
           <li class="nav-item">
             <a class="nav-link"><span th:text="${user.name}"></span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/logout">Logout</a>
           </li>
         </ul>
       </div>
@@ -50,8 +43,8 @@
     <a href="/user/show_contact" class="item"><i class="fa fa-address-book" aria-hidden="true"></i>View Contacts</a>
     <a href="/user/add_contact" class="item"><i class="fa fa-pencil" aria-hidden="true"></i></i>Add Contacts</a>
     <a href="/user/profile_view" class="item"><i class="fa fa-user" aria-hidden="true"></i>Your Profile</a>
-    <a href="#" class="item"><i class="fa fa-cogs" aria-hidden="true"></i>Settings</a>
-    <a href="#" class="item"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a>
+    <a href="/user/setting" class="item"><i class="fa fa-cogs" aria-hidden="true"></i>Settings</a>
+    <a href="/logout" class="item"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a>
   </div>
 
   <div class="content mt-5">

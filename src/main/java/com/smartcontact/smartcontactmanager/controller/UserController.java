@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,6 +30,10 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -185,5 +190,95 @@ public class UserController {
         model.addAttribute("title", user.getName());
         model.addAttribute("user", user);
         return "user_profile.html";
+    }
+
+    @RequestMapping("/setting")
+    public String Setting(Model model, Principal principal) {
+        model.addAttribute("title", "Setting - Smart Contact Manager");
+        User user = this.userRepository.getUserbyUserName(principal.getName());
+        model.addAttribute("user", user);
+        return "setting.html";
+    }
+
+    @RequestMapping(value = "/update_profile", method = RequestMethod.POST)
+    public String ProfileUpdate(@RequestParam("name") String name, @RequestParam("about") String about,
+            @RequestParam("Password") String Password,
+            @RequestParam("image") MultipartFile file, Principal principal,
+            Model model,
+            HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = this.userRepository.getUserbyUserName(principal.getName());
+        try {
+
+            /// processing and uploading file..
+
+            if (file.isEmpty()) {
+                //
+            } else {
+                File deleteFile = new ClassPathResource("static/img").getFile();
+                File file1 = new File(deleteFile, user.getImgurl());
+                file1.delete();
+
+                user.setImgurl(file.getOriginalFilename());
+                File saveFile = new ClassPathResource("static/img").getFile();
+                Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            }
+            if (Password.isEmpty()) {
+                throw new Exception("Enter Password to confirm changes!!");
+            }
+            if (!(this.passwordEncoder.matches(Password, user.getPassword()))) {
+                throw new Exception("Password incorrect!!");
+            }
+            user.setName(name);
+            user.setAbout(about);
+
+            this.userRepository.save(user);
+            session.setAttribute("message", new Message("User information Succesfully Updated !!!",
+                    "alert-success"));
+            return "redirect:/user/profile_view";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("user", user);
+            session.setAttribute("message", new Message(e.getMessage(), "alert-danger"));
+            return "setting.html";
+        }
+    }
+
+    @RequestMapping("/change_password")
+    public String ChangePassword(Model model) {
+        model.addAttribute("title", "Change Password");
+        return "passwordchange.html";
+    }
+
+    @RequestMapping(value = "/process_updatepassword", method = RequestMethod.POST)
+    public String PasswordUpdate(@RequestParam("oldPassword") String oldPassword,
+            @RequestParam("newPassword") String newPassword,
+            @RequestParam("confirmPassword") String confirmPassword,
+            Principal principal, Model model,
+            HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        model.addAttribute("title", "Change Password");
+        User user = this.userRepository.getUserbyUserName(principal.getName());
+        try {
+
+            /// processing and uploading file..
+            if (!(this.passwordEncoder.matches(oldPassword, user.getPassword()))) {
+                throw new Exception("Old Password isn't matched!!");
+            }
+            if (!(confirmPassword.equals(newPassword))) {
+                throw new Exception("New Password and Confirm Password aren't matched!!");
+            }
+            user.setPassword(this.passwordEncoder.encode(newPassword));
+
+            this.userRepository.save(user);
+            session.setAttribute("message", new Message("Succesfully Password Updated !!!",
+                    "alert-success"));
+            return "redirect:/user/profile_view";
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.setAttribute("message", new Message("Something went wrong!!!!" + e.getMessage(), "alert-danger"));
+            return "passwordchange.html";
+        }
     }
 }

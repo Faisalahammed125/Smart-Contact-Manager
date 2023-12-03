@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="https://www.thymeleaf.org" th:replace="base_user :: Layout(~{::section})">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>This is User page</title>
+</head>
+
+<body>
+    <section>
+        <div class="card mt-2">
+            <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert text-center" role="alert">
+                <p th:text="${session.message.content}"></p>
+                <th:block th:text="${@sessionHelper.removeMessageFromSession()}"></th:block>
+            </div>
+            <div class="card-body">
+                <h1 class="text-center">Edit Profile</h1>
+                <hr>
+                <!-- edit form column -->
+
+                <form class="form-horizontal" role="form"
+                th:object="${user}"
+                method="POST" enctype="multipart/form-data" 
+                th:action="@{/user/update_profile}">
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <div class="text-center">
+                                <img th:src="@{'/img/'+${user.imgurl}}" src="" style="width: 150px; height: 150px" class="avatar img-circle" alt="avatar">
+                                <h6>Upload a different photo...</h6>
+
+                                <input type="file" name="image" class="form-control">
+                            </div>
+                            <div class="form-group mt-3">
+                                <a th:href="@{/user/change_password}">Change Password</a>
+                            </div>
+                            <div>
+                                <a th:href="@{url}">Forgot Password</a>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-8">
+                            <h3>Personal info</h3>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Name:</label>
+                                <div class="col-lg-8">
+                                    <input class="form-control" name="name" type="text" th:value="${user.name}">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-8 mt-2">
+                                <textarea th:text="${user.about}" placeholder="Enter description" name="about" id="description" class="form-control" rows="10"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Password:</label>
+                                <div class="col-md-8">
+                                    <input class="form-control" name="Password" type="password">
+                                </div>
+                            </div>
+                            <div class="form-group text-center">
+                                <label class="col-md-3 control-label"></label>
+                                <div class="col-md-8">
+                                    <button class="btn bg-color btn lg">Save Changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+    </section>
+</body>
+
+</html>

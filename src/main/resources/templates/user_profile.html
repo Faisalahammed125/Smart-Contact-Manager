@@ -11,12 +11,16 @@
     <section>
         <div class="container">
 			<div class="card">
+				<div th:if="${session.message}" th:classappend="${session.message.type}" class="alert text-center" role="alert">
+					<p th:text="${session.message.content}"></p>
+					<th:block th:text="${@sessionHelper.removeMessageFromSession()}"></th:block>
+				</div>
 				<div class="card-body">
 
 					<div class="container text-center">
 						<img class="my_profile_picture"
 							style="height: 200px; width: 200px;" alt="Profile Image"
-							th:src="@{'/img/contact_logo.jpg'}" title="Profile Picture" />
+							th:src="@{'/img/'+${user.imgurl}}" title="Profile Picture" />
 						<h1 th:text="${user.name}"></h1>
 					</div>
 

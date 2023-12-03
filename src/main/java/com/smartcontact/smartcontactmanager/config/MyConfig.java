@@ -37,9 +37,8 @@ public class MyConfig {
 
                 .authorizeHttpRequests((authz) -> authz
                         // .requestMatchers("/admin/**").hasAuthority("ADMIN")
-                        // .requestMatchers("/user/**").hasAuthority("USER")
-                        .requestMatchers("/**").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/user/**").authenticated()
+                        .anyRequest().permitAll())
 
                 .formLogin(form -> form.loginPage("/signin").loginProcessingUrl("/dologin")
                         .defaultSuccessUrl("/user/index").permitAll());
